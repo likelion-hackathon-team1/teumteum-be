@@ -1,14 +1,14 @@
 package com.likelion.teumteum.service;
 
-import com.likelion.teumteum.entity.health.DayContext;
-import com.likelion.teumteum.entity.health.DurationType;
 import com.likelion.teumteum.entity.health.GlucoseAnomalyEvent;
 import com.likelion.teumteum.entity.health.GlucoseBaseline;
 import com.likelion.teumteum.entity.health.GlucoseData;
-import com.likelion.teumteum.entity.health.OccurrenceContext;
-import com.likelion.teumteum.entity.health.RiseSpeed;
-import com.likelion.teumteum.entity.health.Severity;
-import com.likelion.teumteum.entity.health.TimeContext;
+import com.likelion.teumteum.entity.health.enums.DayContext;
+import com.likelion.teumteum.entity.health.enums.DurationType;
+import com.likelion.teumteum.entity.health.enums.OccurrenceContext;
+import com.likelion.teumteum.entity.health.enums.RiseSpeed;
+import com.likelion.teumteum.entity.health.enums.Severity;
+import com.likelion.teumteum.entity.health.enums.TimeContext;
 import com.likelion.teumteum.repository.GlucoseAnomalyEventRepository;
 import com.likelion.teumteum.repository.GlucoseBaselineRepository;
 import com.likelion.teumteum.repository.GlucoseDataRepository;

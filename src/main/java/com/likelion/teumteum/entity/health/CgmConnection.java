@@ -1,5 +1,7 @@
 package com.likelion.teumteum.entity.health;
 
+import com.likelion.teumteum.entity.health.enums.ConnectionStatus;
+import com.likelion.teumteum.entity.health.enums.SyncStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

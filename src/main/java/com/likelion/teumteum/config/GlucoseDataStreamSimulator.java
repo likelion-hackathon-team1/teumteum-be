@@ -1,5 +1,6 @@
 package com.likelion.teumteum.config;
 
+import com.likelion.teumteum.entity.health.GlucoseAnomalyEvent;
 import com.likelion.teumteum.entity.health.GlucoseBaseline;
 import com.likelion.teumteum.entity.health.GlucoseData;
 import com.likelion.teumteum.entity.member.Member;
@@ -7,6 +8,7 @@ import com.likelion.teumteum.repository.GlucoseBaselineRepository;
 import com.likelion.teumteum.repository.GlucoseDataRepository;
 import com.likelion.teumteum.repository.MemberRepository;
 import com.likelion.teumteum.service.GlucoseAnomalyDetectionService;
+import com.likelion.teumteum.service.ai.InterventionOrchestrationService;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -15,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Component
@@ -34,16 +35,17 @@ public class GlucoseDataStreamSimulator {
   private final GlucoseDataRepository glucoseDataRepository;
   private final GlucoseBaselineRepository glucoseBaselineRepository;
   private final GlucoseAnomalyDetectionService glucoseAnomalyDetectionService;
+  private final InterventionOrchestrationService interventionOrchestrationService;
 
   @Scheduled(fixedRate = 5 * 60 * 1000)
-  @Transactional
   public void streamGlucoseData() {
     for (Member member : memberRepository.findAll()) {
       GlucoseData saved = glucoseDataRepository.save(generateReading(member.getId()));
 
-      Optional<?> anomalyEvent = glucoseAnomalyDetectionService.detectAndLabel(member.getId(), saved);
+      Optional<GlucoseAnomalyEvent> anomalyEvent = glucoseAnomalyDetectionService.detectAndLabel(member.getId(), saved);
       if (anomalyEvent.isPresent()) {
         log.info("멤버 id={} 혈당값={} 에서 이상치 감지 및 라벨링 완료", member.getId(), saved.getGlucoseValue());
+        interventionOrchestrationService.handleAnomalyEvent(anomalyEvent.get());
       }
     }
   }

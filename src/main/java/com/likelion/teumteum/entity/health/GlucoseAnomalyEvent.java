@@ -1,5 +1,11 @@
 package com.likelion.teumteum.entity.health;
 
+import com.likelion.teumteum.entity.health.enums.DayContext;
+import com.likelion.teumteum.entity.health.enums.DurationType;
+import com.likelion.teumteum.entity.health.enums.OccurrenceContext;
+import com.likelion.teumteum.entity.health.enums.RiseSpeed;
+import com.likelion.teumteum.entity.health.enums.Severity;
+import com.likelion.teumteum.entity.health.enums.TimeContext;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
