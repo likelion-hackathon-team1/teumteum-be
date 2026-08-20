@@ -2,6 +2,9 @@ package com.likelion.teumteum.docs;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessRequest;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -41,18 +44,21 @@ public class ConversationControllerDocsTest extends RestDocsSupport {
     mockMvc.perform(get("/api/members/{memberId}/conversations/active", 1L))
         .andExpect(status().isOk())
         .andDo(document("conversation-get-active-greeting",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             pathParameters(
                 parameterWithName("memberId").description("회원 ID")
             ),
             responseFields(
-                fieldWithPath("type").description("응답 타입 (GREETING, CONVERSATION)"),
-                fieldWithPath("conversationId").description("대화 ID (신규 인사말인 경우 null)").optional(),
-                fieldWithPath("messages").description("메시지 목록"),
-                fieldWithPath("messages[].id").description("메시지 ID (신규 인사말인 경우 null)").optional(),
-                fieldWithPath("messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
-                fieldWithPath("messages[].messageType").description("메시지 타입 (TEXT 등)"),
-                fieldWithPath("messages[].content").description("메시지 내용"),
-                fieldWithPath("messages[].sequence").description("메시지 순번")
+                fieldWithPath("data.type").description("응답 타입 (GREETING, CONVERSATION)"),
+                fieldWithPath("data.conversationId").description("대화 ID (신규 인사말인 경우 null)").optional(),
+                fieldWithPath("data.messages").description("메시지 목록"),
+                fieldWithPath("data.messages[].id").description("메시지 ID (신규 인사말인 경우 null)").optional(),
+                fieldWithPath("data.messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
+                fieldWithPath("data.messages[].messageType").description("메시지 타입 (TEXT 등)"),
+                fieldWithPath("data.messages[].content").description("메시지 내용"),
+                fieldWithPath("data.messages[].sequence").description("메시지 순번"),
+                fieldWithPath("message").description("응답 메시지")
             )
         ));
   }
@@ -70,18 +76,21 @@ public class ConversationControllerDocsTest extends RestDocsSupport {
     mockMvc.perform(get("/api/members/{memberId}/conversations/active", 1L))
         .andExpect(status().isOk())
         .andDo(document("conversation-get-active",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             pathParameters(
                 parameterWithName("memberId").description("회원 ID")
             ),
             responseFields(
-                fieldWithPath("type").description("응답 타입 (GREETING, CONVERSATION)"),
-                fieldWithPath("conversationId").description("대화 ID"),
-                fieldWithPath("messages").description("메시지 목록"),
-                fieldWithPath("messages[].id").description("메시지 ID"),
-                fieldWithPath("messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
-                fieldWithPath("messages[].messageType").description("메시지 타입 (TEXT 등)"),
-                fieldWithPath("messages[].content").description("메시지 내용"),
-                fieldWithPath("messages[].sequence").description("메시지 순번")
+                fieldWithPath("data.type").description("응답 타입 (GREETING, CONVERSATION)"),
+                fieldWithPath("data.conversationId").description("대화 ID"),
+                fieldWithPath("data.messages").description("메시지 목록"),
+                fieldWithPath("data.messages[].id").description("메시지 ID"),
+                fieldWithPath("data.messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
+                fieldWithPath("data.messages[].messageType").description("메시지 타입 (TEXT 등)"),
+                fieldWithPath("data.messages[].content").description("메시지 내용"),
+                fieldWithPath("data.messages[].sequence").description("메시지 순번"),
+                fieldWithPath("message").description("응답 메시지")
             )
         ));
   }
@@ -103,6 +112,8 @@ public class ConversationControllerDocsTest extends RestDocsSupport {
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document("conversation-send-message",
+            preprocessRequest(prettyPrint()),
+            preprocessResponse(prettyPrint()),
             pathParameters(
                 parameterWithName("memberId").description("회원 ID")
             ),
@@ -110,14 +121,15 @@ public class ConversationControllerDocsTest extends RestDocsSupport {
                 fieldWithPath("content").description("사용자가 보낸 메시지 내용")
             ),
             responseFields(
-                fieldWithPath("type").description("응답 타입 (GREETING, CONVERSATION)"),
-                fieldWithPath("conversationId").description("대화 ID"),
-                fieldWithPath("messages").description("메시지 목록"),
-                fieldWithPath("messages[].id").description("메시지 ID"),
-                fieldWithPath("messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
-                fieldWithPath("messages[].messageType").description("메시지 타입 (TEXT 등)"),
-                fieldWithPath("messages[].content").description("메시지 내용"),
-                fieldWithPath("messages[].sequence").description("메시지 순번")
+                fieldWithPath("data.type").description("응답 타입 (GREETING, CONVERSATION)"),
+                fieldWithPath("data.conversationId").description("대화 ID"),
+                fieldWithPath("data.messages").description("메시지 목록"),
+                fieldWithPath("data.messages[].id").description("메시지 ID"),
+                fieldWithPath("data.messages[].senderType").description("발신자 타입 (USER, ASSISTANT)"),
+                fieldWithPath("data.messages[].messageType").description("메시지 타입 (TEXT 등)"),
+                fieldWithPath("data.messages[].content").description("메시지 내용"),
+                fieldWithPath("data.messages[].sequence").description("메시지 순번"),
+                fieldWithPath("message").description("응답 메시지")
             )
         ));
   }

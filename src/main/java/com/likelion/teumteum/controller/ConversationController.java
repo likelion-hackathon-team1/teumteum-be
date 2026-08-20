@@ -1,5 +1,6 @@
 package com.likelion.teumteum.controller;
 
+import com.likelion.teumteum.common.dto.SuccessResponse;
 import com.likelion.teumteum.dto.conversation.ConversationActiveResponse;
 import com.likelion.teumteum.dto.conversation.SendMessageRequest;
 import com.likelion.teumteum.service.conversation.ConversationService;
@@ -19,13 +20,13 @@ public class ConversationController {
   private final ConversationService conversationService;
 
   @GetMapping("/active")
-  public ConversationActiveResponse getActiveConversation(@PathVariable Long memberId) {
-    return conversationService.getActiveConversation(memberId);
+  public SuccessResponse<ConversationActiveResponse> getActiveConversation(@PathVariable Long memberId) {
+    return SuccessResponse.of(conversationService.getActiveConversation(memberId));
   }
 
   @PostMapping("/messages")
-  public ConversationActiveResponse sendMessage(@PathVariable Long memberId,
+  public SuccessResponse<ConversationActiveResponse> sendMessage(@PathVariable Long memberId,
       @RequestBody SendMessageRequest request) {
-    return conversationService.sendUserMessage(memberId, request.content());
+    return SuccessResponse.of(conversationService.sendUserMessage(memberId, request.content()));
   }
 }
