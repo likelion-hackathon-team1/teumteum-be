@@ -26,12 +26,20 @@ public class Member {
   @Column(name = "profile_image_url")
   private String profileImageUrl;
 
-  @Column(nullable = false, columnDefinition = "TINYINT(1)")
+  @Column(
+          name = "onboarding_completed",
+          nullable = false,
+          columnDefinition = "TINYINT(1)"
+  )
   private boolean onboardingCompleted;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "conversation_preference")
-  private ConversationPreference conversationPreference;
+  @Column(
+          name = "conversation_preference",
+          nullable = false
+  )
+  private ConversationPreference conversationPreference =
+          ConversationPreference.ASK_FIRST;
 
   @Column(
           name = "notification_enabled",
@@ -39,6 +47,27 @@ public class Member {
           columnDefinition = "TINYINT(1)"
   )
   private boolean notificationEnabled;
+
+  @Column(
+          name = "cgm_connected",
+          nullable = false,
+          columnDefinition = "TINYINT(1)"
+  )
+  private boolean cgmConnected = true;
+
+  @Column(
+          name = "wim_report_connected",
+          nullable = false,
+          columnDefinition = "TINYINT(1)"
+  )
+  private boolean wimReportConnected = true;
+
+  @Column(
+          name = "wimi_report_connected",
+          nullable = false,
+          columnDefinition = "TINYINT(1)"
+  )
+  private boolean wimIReportConnected = true;
 
   public static Member of(
           Long kakaoUserId,
@@ -57,7 +86,7 @@ public class Member {
     return member;
   }
 
-  // 온보딩 - 대화 방식 선택
+  // 온보딩 - 대화 방식 선택/변경
   public void updateConversationPreference(
           ConversationPreference conversationPreference
   ) {
@@ -75,8 +104,17 @@ public class Member {
   }
 
   public enum ConversationPreference {
-    EMPATHETIC,
-    DIRECT,
-    BALANCED
+
+    // 행동 → 짧은 이유 → 선택 확인
+    ACTION_FIRST,
+
+    // 짧은 이유 → 행동 → 선택 확인
+    REASON_FIRST,
+
+    // 질문 → 사용자 응답 → 공감/확인 → 행동
+    ASK_FIRST,
+
+    // 경청 → 공감 → 제안 의사 확인 → 행동
+    LISTEN_FIRST
   }
 }

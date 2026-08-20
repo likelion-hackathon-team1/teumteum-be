@@ -12,6 +12,10 @@ public class SuccessResponse<T> {
   private final T data;
   private final String message;
 
+  public static SuccessResponse<Void> success(String message) {
+    return new SuccessResponse<>(null, message);
+  }
+
   @Builder(access = AccessLevel.PRIVATE)
   private SuccessResponse(T data, String message) {
     this.data = data;
