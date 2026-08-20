@@ -136,3 +136,26 @@ endif::[]
 |Boolean
 |이전 페이지 존재 여부
 |===
+
+[[conversation]]
+== 대화(Conversation) API
+
+[[conversation-get-active]]
+=== 활성 대화 조회
+
+회원의 진행 중인 대화가 있으면 해당 대화의 메시지 목록을, 없으면 신규 인사말을 반환한다.
+
+==== 진행 중인 대화가 있는 경우
+
+operation::conversation-get-active[snippets='http-request,path-parameters,http-response,response-fields']
+
+==== 진행 중인 대화가 없는 경우 (신규 인사말)
+
+operation::conversation-get-active-greeting[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[conversation-send-message]]
+=== 사용자 메시지 전송
+
+회원이 보낸 메시지를 저장하고, AI 응답 메시지를 생성하여 대화 내용을 반환한다.
+
+operation::conversation-send-message[snippets='http-request,path-parameters,request-fields,http-response,response-fields']

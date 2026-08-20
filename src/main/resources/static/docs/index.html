@@ -462,6 +462,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 </ul>
 </li>
+<li><a href="#conversation">대화(Conversation) API</a>
+<ul class="sectlevel2">
+<li><a href="#conversation-get-active">활성 대화 조회</a>
+<ul class="sectlevel3">
+<li><a href="#_진행_중인_대화가_있는_경우">진행 중인 대화가 있는 경우</a></li>
+<li><a href="#_진행_중인_대화가_없는_경우_신규_인사말">진행 중인 대화가 없는 경우 (신규 인사말)</a></li>
+</ul>
+</li>
+<li><a href="#conversation-send-message">사용자 메시지 전송</a>
+<ul class="sectlevel3">
+<li><a href="#conversation-send-message_http_request">HTTP request</a></li>
+<li><a href="#conversation-send-message_path_parameters">Path parameters</a></li>
+<li><a href="#conversation-send-message_request_fields">Request fields</a></li>
+<li><a href="#conversation-send-message_http_response">HTTP response</a></li>
+<li><a href="#conversation-send-message_response_fields">Response fields</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -635,11 +654,369 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="conversation"><a class="link" href="#conversation">대화(Conversation) API</a></h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="conversation-get-active"><a class="link" href="#conversation-get-active">활성 대화 조회</a></h3>
+<div class="paragraph">
+<p>회원의 진행 중인 대화가 있으면 해당 대화의 메시지 목록을, 없으면 신규 인사말을 반환한다.</p>
+</div>
+<div class="sect3">
+<h4 id="_진행_중인_대화가_있는_경우"><a class="link" href="#_진행_중인_대화가_있는_경우">진행 중인 대화가 있는 경우</a></h4>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_있는_경우_http_request"><a class="link" href="#_진행_중인_대화가_있는_경우_http_request">HTTP request</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/1/conversations/active HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_있는_경우_path_parameters"><a class="link" href="#_진행_중인_대화가_있는_경우_path_parameters">Path parameters</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/members/{memberId}/conversations/active</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_있는_경우_http_response"><a class="link" href="#_진행_중인_대화가_있는_경우_http_response">HTTP response</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 285
+
+{"type":"CONVERSATION","conversationId":10,"messages":[{"id":1,"senderType":"USER","messageType":"TEXT","content":"오늘 혈당이 높게 나왔어요","sequence":1},{"id":2,"senderType":"ASSISTANT","messageType":"TEXT","content":"어떤 부분이 걱정되시나요?","sequence":2}]}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_있는_경우_response_fields"><a class="link" href="#_진행_중인_대화가_있는_경우_response_fields">Response fields</a></h5>
+<div class="sect3">
+<h4 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_진행_중인_대화가_없는_경우_신규_인사말"><a class="link" href="#_진행_중인_대화가_없는_경우_신규_인사말">진행 중인 대화가 없는 경우 (신규 인사말)</a></h4>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_없는_경우_신규_인사말_http_request"><a class="link" href="#_진행_중인_대화가_없는_경우_신규_인사말_http_request">HTTP request</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/members/1/conversations/active HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_없는_경우_신규_인사말_path_parameters"><a class="link" href="#_진행_중인_대화가_없는_경우_신규_인사말_path_parameters">Path parameters</a></h5>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/members/{memberId}/conversations/active</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_없는_경우_신규_인사말_http_response"><a class="link" href="#_진행_중인_대화가_없는_경우_신규_인사말_http_response">HTTP response</a></h5>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 188
+
+{"type":"GREETING","conversationId":null,"messages":[{"id":null,"senderType":"ASSISTANT","messageType":"TEXT","content":"안녕하세요! 오늘 컨디션은 어떠세요?","sequence":1}]}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_진행_중인_대화가_없는_경우_신규_인사말_response_fields"><a class="link" href="#_진행_중인_대화가_없는_경우_신규_인사말_response_fields">Response fields</a></h5>
+<div class="sect3">
+<h4 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID (신규 인사말인 경우 null)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID (신규 인사말인 경우 null)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="conversation-send-message"><a class="link" href="#conversation-send-message">사용자 메시지 전송</a></h3>
+<div class="paragraph">
+<p>회원이 보낸 메시지를 저장하고, AI 응답 메시지를 생성하여 대화 내용을 반환한다.</p>
+</div>
+<div class="sect3">
+<h4 id="conversation-send-message_http_request"><a class="link" href="#conversation-send-message_http_request">HTTP request</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/1/conversations/messages HTTP/1.1
+Content-Type: application/json
+Content-Length: 50
+Host: localhost:8080
+
+{"content":"오늘 혈당이 높게 나왔어요"}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="conversation-send-message_path_parameters"><a class="link" href="#conversation-send-message_path_parameters">Path parameters</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<caption class="title">Table 1. /api/members/{memberId}/conversations/messages</caption>
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Parameter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>memberId</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">회원 ID</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="conversation-send-message_request_fields"><a class="link" href="#conversation-send-message_request_fields">Request fields</a></h4>
+<div class="sect3">
+<h4 id="_request_fields"><a class="link" href="#_request_fields">Request Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="conversation-send-message_http_response"><a class="link" href="#conversation-send-message_http_response">HTTP response</a></h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 285
+
+{"type":"CONVERSATION","conversationId":10,"messages":[{"id":1,"senderType":"USER","messageType":"TEXT","content":"오늘 혈당이 높게 나왔어요","sequence":1},{"id":2,"senderType":"ASSISTANT","messageType":"TEXT","content":"어떤 부분이 걱정되시나요?","sequence":2}]}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="conversation-send-message_response_fields"><a class="link" href="#conversation-send-message_response_fields">Response fields</a></h4>
+<div class="sect3">
+<h4 id="_response_fields"><a class="link" href="#_response_fields">Response Fields</a></h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Path</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2026-08-17 21:53:46 +0900
+Last updated 2026-08-20 23:23:25 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
