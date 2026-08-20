@@ -701,9 +701,28 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 285
+Content-Length: 445
 
-{"type":"CONVERSATION","conversationId":10,"messages":[{"id":1,"senderType":"USER","messageType":"TEXT","content":"오늘 혈당이 높게 나왔어요","sequence":1},{"id":2,"senderType":"ASSISTANT","messageType":"TEXT","content":"어떤 부분이 걱정되시나요?","sequence":2}]}</code></pre>
+{
+  "data" : {
+    "type" : "CONVERSATION",
+    "conversationId" : 10,
+    "messages" : [ {
+      "id" : 1,
+      "senderType" : "USER",
+      "messageType" : "TEXT",
+      "content" : "오늘 혈당이 높게 나왔어요",
+      "sequence" : 1
+    }, {
+      "id" : 2,
+      "senderType" : "ASSISTANT",
+      "messageType" : "TEXT",
+      "content" : "어떤 부분이 걱정되시나요?",
+      "sequence" : 2
+    } ]
+  },
+  "message" : ""
+}</code></pre>
 </div>
 </div>
 </div>
@@ -724,44 +743,49 @@ Content-Length: 285
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.conversationId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].senderType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].messageType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].content</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].sequence</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
 </tr>
 </tbody>
 </table>
@@ -807,9 +831,22 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 188
+Content-Length: 297
 
-{"type":"GREETING","conversationId":null,"messages":[{"id":null,"senderType":"ASSISTANT","messageType":"TEXT","content":"안녕하세요! 오늘 컨디션은 어떠세요?","sequence":1}]}</code></pre>
+{
+  "data" : {
+    "type" : "GREETING",
+    "conversationId" : null,
+    "messages" : [ {
+      "id" : null,
+      "senderType" : "ASSISTANT",
+      "messageType" : "TEXT",
+      "content" : "안녕하세요! 오늘 컨디션은 어떠세요?",
+      "sequence" : 1
+    } ]
+  },
+  "message" : ""
+}</code></pre>
 </div>
 </div>
 </div>
@@ -830,44 +867,49 @@ Content-Length: 188
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.conversationId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID (신규 인사말인 경우 null)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID (신규 인사말인 경우 null)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].senderType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].messageType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].content</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].sequence</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
 </tr>
 </tbody>
 </table>
@@ -886,10 +928,12 @@ Content-Length: 188
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /api/members/1/conversations/messages HTTP/1.1
 Content-Type: application/json
-Content-Length: 50
+Content-Length: 56
 Host: localhost:8080
 
-{"content":"오늘 혈당이 높게 나왔어요"}</code></pre>
+{
+  "content" : "오늘 혈당이 높게 나왔어요"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -933,6 +977,12 @@ Host: localhost:8080
 <td class="tableblock halign-left valign-top"><p class="tableblock">Required</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">O</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">사용자가 보낸 메시지 내용</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -943,9 +993,28 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 285
+Content-Length: 445
 
-{"type":"CONVERSATION","conversationId":10,"messages":[{"id":1,"senderType":"USER","messageType":"TEXT","content":"오늘 혈당이 높게 나왔어요","sequence":1},{"id":2,"senderType":"ASSISTANT","messageType":"TEXT","content":"어떤 부분이 걱정되시나요?","sequence":2}]}</code></pre>
+{
+  "data" : {
+    "type" : "CONVERSATION",
+    "conversationId" : 10,
+    "messages" : [ {
+      "id" : 1,
+      "senderType" : "USER",
+      "messageType" : "TEXT",
+      "content" : "오늘 혈당이 높게 나왔어요",
+      "sequence" : 1
+    }, {
+      "id" : 2,
+      "senderType" : "ASSISTANT",
+      "messageType" : "TEXT",
+      "content" : "어떤 부분이 걱정되시나요?",
+      "sequence" : 2
+    } ]
+  },
+  "message" : ""
+}</code></pre>
 </div>
 </div>
 </div>
@@ -966,44 +1035,49 @@ Content-Length: 285
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.type</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">응답 타입 (GREETING, CONVERSATION)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">conversationId</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.conversationId</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">대화 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Array</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 목록</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].id</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].id</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 ID</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].senderType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].senderType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">발신자 타입 (USER, ASSISTANT)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].messageType</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].messageType</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 타입 (TEXT 등)</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].content</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 내용</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">messages[].sequence</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">data.messages[].sequence</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Number</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">메시지 순번</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">message</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지</p></td>
 </tr>
 </tbody>
 </table>
