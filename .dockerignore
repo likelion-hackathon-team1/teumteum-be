@@ -1,0 +1,12 @@
+.git
+.gradle
+.idea
+*.iml
+out/
+bin/
+build/generated-snippets
+build/docs
+build/reports
+build/test-results
+docker-compose*.yml
+.env
