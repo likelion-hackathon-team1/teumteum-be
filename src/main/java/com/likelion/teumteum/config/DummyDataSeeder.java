@@ -45,7 +45,10 @@ public class DummyDataSeeder implements CommandLineRunner {
     Member member = memberRepository.findAll().stream()
         .findFirst()
         .orElseGet(() -> memberRepository.save(
-            Member.of(null, "테스트유저", "test@teumteum.com", true)));
+            Member.of(null,
+                    "테스트유저",
+                    "test@teumteum.com",
+                    "https://example.com/profile.jpg")));
 
     seedGlucoseData(member);
     seedWimReport(member);
